@@ -14,20 +14,16 @@ import * as fromHomeSelectors from './state/home.selectors';
 export class HomePage implements OnInit {
   searchControl: FormControl;
 
-  text: string = '';
+  text: string = 'Pesquisar';
 
   constructor(private store: Store) {
     this.searchControl = new FormControl('', Validators.required);
   }
 
-  ngOnInit(): void {
-    this.store
-      .pipe(select(fromHomeSelectors.selectHomeText))
-      .subscribe((text) => (this.text = text));
-  }
+  ngOnInit(): void {}
 
   doSearch() {
-    const text = this.searchControl.value;
-    this.store.dispatch(fromHomeActions.changeText({ text }));
+    const query = this.searchControl.value;
+    this.store.dispatch(fromHomeActions.loadCurrentWeather({ query }));
   }
 }
