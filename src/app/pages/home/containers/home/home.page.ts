@@ -1,20 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { Store, select } from '@ngrx/store';
 
 import * as fromHomeActions from '../../state/home.actions';
 import * as fromHomeSelectors from '../../state/home.selectors';
-import { Observable, of } from 'rxjs';
+import { Observable, Subject, of, takeUntil } from 'rxjs';
 import { CityWeather } from 'src/app/shared/models/weather.model';
+import { Bookmark } from 'src/app/shared/models/bookmark.model';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.css'],
 })
-export class HomePage implements OnInit {
-  cityWeather$: Observable<CityWeather> = of({
+export class HomePage implements OnInit, OnDestroy {
+  cityWeather: CityWeather = {
     city: {
       id: 0,
       name: '',
@@ -35,20 +36,25 @@ export class HomePage implements OnInit {
       sunrise: 0,
       sunset: 0,
     },
-  });
+  };
   loading$: Observable<boolean> = of(false);
   error$: Observable<boolean> = of(false);
 
   searchControl: FormControl;
+
+  private componentDestroyed$ = new Subject<void>();
 
   constructor(private store: Store) {
     this.searchControl = new FormControl('', Validators.required);
   }
 
   ngOnInit(): void {
-    this.cityWeather$ = this.store.pipe(
-      select(fromHomeSelectors.selectCurrentWeather)
-    );
+    this.store
+      .pipe(
+        select(fromHomeSelectors.selectCurrentWeather),
+        takeUntil(this.componentDestroyed$)
+      )
+      .subscribe((value) => (this.cityWeather = value));
     this.loading$ = this.store.pipe(
       select(fromHomeSelectors.selectCurrentWeatherLoading)
     );
@@ -57,8 +63,21 @@ export class HomePage implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.componentDestroyed$.next();
+    this.componentDestroyed$.unsubscribe();
+  }
+
   doSearch() {
     const query = this.searchControl.value;
     this.store.dispatch(fromHomeActions.loadCurrentWeather({ query }));
+  }
+
+  onToggleBookmark() {
+    const bookmark = new Bookmark();
+    bookmark.id = this.cityWeather.city.id;
+    bookmark.name = this.cityWeather.city.name;
+    bookmark.country = this.cityWeather.city.country;
+    bookmark.coord = this.cityWeather.city.coord;
   }
 }

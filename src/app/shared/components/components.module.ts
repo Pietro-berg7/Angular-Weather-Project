@@ -7,6 +7,6 @@ import { DetailedWeatherComponent } from './detailed-weather/detailed-weather.co
 @NgModule({
   imports: [CommonModule],
   declarations: [LoaderComponent, DetailedWeatherComponent],
-  exports: [LoaderComponent],
+  exports: [LoaderComponent, DetailedWeatherComponent],
 })
 export class ComponentsModule {}
