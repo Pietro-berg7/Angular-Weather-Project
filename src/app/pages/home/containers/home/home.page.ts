@@ -3,8 +3,8 @@ import { FormControl, Validators } from '@angular/forms';
 
 import { Store, select } from '@ngrx/store';
 
-import * as fromHomeActions from './state/home.actions';
-import * as fromHomeSelectors from './state/home.selectors';
+import * as fromHomeActions from '../../state/home.actions';
+import * as fromHomeSelectors from '../../state/home.selectors';
 import { Observable, of } from 'rxjs';
 import { CityWeather } from 'src/app/shared/models/weather.model';
 
@@ -14,7 +14,28 @@ import { CityWeather } from 'src/app/shared/models/weather.model';
   styleUrls: ['./home.page.css'],
 })
 export class HomePage implements OnInit {
-  cityWeather$: Observable<CityWeather> | undefined;
+  cityWeather$: Observable<CityWeather> = of({
+    city: {
+      id: 0,
+      name: '',
+      country: '',
+      coord: { lat: 0, lon: 0 },
+      timeZone: '',
+    },
+    weather: {
+      id: 0,
+      description: '',
+      icon: '',
+      temp: 0,
+      minTemp: 0,
+      maxTemp: 0,
+      feelsLike: 0,
+      humidity: 0,
+      wind: { speed: 0, deg: 0 },
+      sunrise: 0,
+      sunset: 0,
+    },
+  });
   loading$: Observable<boolean> = of(false);
   error$: Observable<boolean> = of(false);
 

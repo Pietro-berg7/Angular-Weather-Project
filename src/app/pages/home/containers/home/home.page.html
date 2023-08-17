@@ -21,4 +21,16 @@
   </div>
 
   <app-loader *ngIf="loading$ | async"></app-loader>
+
+  <div
+    *ngIf="!(loading$ | async) && !(error$ | async) && !!(cityWeather$ | async)"
+  >
+    <app-current-weather
+      [cityWeather]="cityWeather$ | async"
+    ></app-current-weather>
+  </div>
+
+  <div *ngIf="!(loading$ | async) && (error$ | async)">
+    <a>Tentar novamente</a>
+  </div>
 </div>
