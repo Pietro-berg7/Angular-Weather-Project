@@ -1,7 +1,7 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'jv-loader',
+  selector: 'app-loader',
   template: `
     <div class="spinner">
       <div class="double-bounce1"></div>
@@ -9,5 +9,4 @@ import { Component } from "@angular/core";
     </div>
   `,
 })
-export class LoaderComponent {
-}
+export class LoaderComponent {}
