@@ -13,10 +13,10 @@ import { CurrentWeatherComponent } from './components/current-weather/current-we
   declarations: [HomePage, CurrentWeatherComponent],
   imports: [
     CommonModule,
-    ComponentsModule,
     ReactiveFormsModule,
     StoreModule.forFeature('home', homeReducer),
     EffectsModule.forFeature([HomeEffects]),
+    ComponentsModule,
   ],
 })
 export class HomeModule {}

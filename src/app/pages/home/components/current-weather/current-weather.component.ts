@@ -15,7 +15,7 @@ import { CityWeather } from 'src/app/shared/models/weather.model';
 })
 export class CurrentWeatherComponent {
   @Input()
-  cityWeather: CityWeather | null = {
+  cityWeather: CityWeather = {
     city: {
       id: 0,
       name: '',
@@ -37,11 +37,13 @@ export class CurrentWeatherComponent {
       sunset: 0,
     },
   };
+  @Input()
+  isFavorite: boolean | null = false;
   @Output()
   toogleBookmark = new EventEmitter();
 
   get cityName(): string {
-    return `${this.cityWeather?.city.name} ${this.cityWeather?.city.country}`;
+    return `${this.cityWeather.city.name} ${this.cityWeather.city.country}`;
   }
 
   onToggleBookmark() {

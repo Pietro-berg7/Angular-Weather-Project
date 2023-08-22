@@ -3,13 +3,12 @@
     <h2>{{ cityName }}</h2>
 
     <app-detailed-weather
-      *ngIf="!!cityWeather"
       [weather]="cityWeather.weather"
     ></app-detailed-weather>
 
     <div class="card-actions">
       <a class="card-link" (click)="onToggleBookmark()">
-        Adicionar aos favoritos
+        {{ isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos" }}
       </a>
       <a class="card-link" routerLink="/details"> Ver detalhes </a>
     </div>

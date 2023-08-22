@@ -1,7 +1,7 @@
 import {
+  MemoizedSelector,
   createFeatureSelector,
   createSelector,
-  MemoizedSelector,
 } from '@ngrx/store';
 import { HomeState } from './home.reducer';
 
